@@ -118,6 +118,30 @@ const consulta1 = criarConsulta(
   new Date(),
   350
 );
+
+// Listar consultas por status
+function listarConsultasPorStatus(
+  consultas: Consulta[],
+  status: StatusConsulta): Consulta[] {
+  return consultas.filter((consulta) => consulta.status === status);
+  }
+
+// Listar consultas futuras
+function listarConsultasFuturas(consultas: Consulta[]): Consulta[]{
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  return consultas.filter((consulta) => consulta.data >= hoje);
+}
+
+// Alterar status da consulta
+function alterarStatusConsuta(consulta: Consulta, novoStatus: StatusConsulta): Consulta{
+  consulta.status = novoStatus;
+  return consulta;
+}
+
+
+
+
 const consultaConfirmada = confirmarConsulta(consulta1);
 console.log("=== CONSULTA CONFIRMADA ===");
 console.log(exibirConsulta(consultaConfirmada));
