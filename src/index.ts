@@ -4,6 +4,7 @@ import { StatusConsulta } from "./types/statusConsulta";
 import { Medico } from "./interfaces/medico";
 import { Consulta } from "./interfaces/consulta";
 
+
 // Especialidades
 const cardiologia: Especialidade = {
   id: 1,
@@ -61,23 +62,6 @@ const paciente3: Paciente = {
   email: "pedro@email.com",
 };
 
-function criarConsulta(
-  id: number,
-  medico: Medico,
-  paciente: Paciente,
-  data: Date,
-  valor: number
-): Consulta {
-  return {
-    id,
-    medico,
-    paciente,
-    data,
-    valor,
-    status: "agendada",
-  };
-}
-
 function confirmarConsulta(consulta: Consulta): Consulta {
   return {
     ...consulta,
@@ -92,6 +76,24 @@ function cancelarConsulta(consulta: Consulta): Consulta | null {
   return {
     ...consulta,
     status: "cancelada",
+  };
+}
+
+
+function criarConsulta(
+  id: number,
+  medico: Medico,
+  paciente: Paciente,
+  data: Date,
+  valor: number
+): Consulta {
+  return {
+    id,
+    medico,
+    paciente,
+    data,
+    valor,
+    status: "agendada",
   };
 }
 
@@ -111,13 +113,45 @@ Status: ${consulta.status}
 `;
 }
 
-const consulta1 = criarConsulta(
-  1,
-  medico1,
-  paciente1,
-  new Date(),
-  350
-);
-const consultaConfirmada = confirmarConsulta(consulta1);
-console.log("=== CONSULTA CONFIRMADA ===");
-console.log(exibirConsulta(consultaConfirmada));
+// Listar consultas por status
+function listarConsultasPorStatus(
+  consultas: Consulta[],
+  status: StatusConsulta): Consulta[] {
+  return consultas.filter((consulta) => consulta.status === status);
+  }
+
+function listarConsultasFuturas(consultas: Consulta[]): Consulta[]{
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  return consultas.filter((consulta) => consulta.data >= hoje);
+}
+
+function alterarStatusConsuta(consulta: Consulta, novoStatus: StatusConsulta): Consulta{
+  consulta.status = novoStatus;
+  return consulta;
+}
+
+// Criando consultas de exemplo
+const consulta1 = criarConsulta(1, medico1, paciente1, new Date("2026-01-01"), 200);
+const consulta2 = criarConsulta(2, medico2, paciente2, new Date("2026-01-05"), 300);
+const consulta3 = criarConsulta(3, medico3, paciente3, new Date("2026-02-15"), 150);
+const consulta4 = criarConsulta(4, medico3, paciente2, new Date("2026-02-09"), 250);
+
+const consultaConfirmada = alterarStatusConsuta(consulta1, "confirmada");
+const consultaRealizada = alterarStatusConsuta(consulta2, "realizada");
+const consultaCancelada = alterarStatusConsuta(consulta3, "cancelada");
+
+const consultas: Consulta[] = [];
+consultas.push(consultaConfirmada, consultaRealizada, consultaCancelada, consulta4);
+console.log(consultas);
+
+
+//Calcular faturamento
+function calcularFaturamento(consultas: Consulta[]): number {
+  return consultas
+    .filter((consulta) => consulta.status === "realizada")
+    .reduce((total, consulta) => total + consulta.valor, 0);
+}
+
+const faturamento = calcularFaturamento(consultas);
+console.log(`Faturamento total: R$ ${faturamento.toFixed(2)}`);
