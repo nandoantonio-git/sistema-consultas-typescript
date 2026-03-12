@@ -61,6 +61,7 @@ const paciente3: Paciente = {
   email: "pedro@email.com",
 };
 
+// Função para criar uma nova consulta
 function criarConsulta(
   id: number,
   medico: Medico,
@@ -78,6 +79,7 @@ function criarConsulta(
   };
 }
 
+// Confirmar consulta
 function confirmarConsulta(consulta: Consulta): Consulta {
   return {
     ...consulta,
@@ -94,7 +96,7 @@ function cancelarConsulta(consulta: Consulta): Consulta | null {
     status: "cancelada",
   };
 }
-
+// Exibir detalhes da consulta
 function exibirConsulta(consulta: Consulta): string {
   const valorFormatado = consulta.valor.toLocaleString("pt-BR", {
     style: "currency",
@@ -134,6 +136,7 @@ const consulta2 = criarConsulta(2, medico2, paciente2, new Date("2026-01-05"), 3
 const consulta3 = criarConsulta(3, medico3, paciente3, new Date("2026-02-15"), 150);
 const consulta4 = criarConsulta(4, medico3, paciente2, new Date("2026-02-09"), 250);
 
+// Alterando status das consultas
 const consultaConfirmada = alterarStatusConsuta(consulta1, "confirmada");
 const consultaRealizada = alterarStatusConsuta(consulta2, "realizada");
 const consultaCancelada = alterarStatusConsuta(consulta3, "cancelada");
