@@ -4,6 +4,7 @@ import { StatusConsulta } from "./types/statusConsulta";
 import { Medico } from "./interfaces/medico";
 import { Consulta } from "./interfaces/consulta";
 
+
 // Especialidades
 const cardiologia: Especialidade = {
   id: 1,
@@ -113,6 +114,7 @@ Status: ${consulta.status}
 `;
 }
 
+// Listar consultas por status
 function listarConsultasPorStatus(
   consultas: Consulta[],
   status: StatusConsulta): Consulta[] {

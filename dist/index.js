@@ -54,6 +54,15 @@ const paciente3 = {
     cpf: "456.789.123-00",
     email: "pedro@email.com",
 };
+function confirmarConsulta(consulta) {
+    return Object.assign(Object.assign({}, consulta), { status: "confirmada" });
+}
+function cancelarConsulta(consulta) {
+    if (consulta.status === "realizada") {
+        return null;
+    }
+    return Object.assign(Object.assign({}, consulta), { status: "cancelada" });
+}
 function criarConsulta(id, medico, paciente, data, valor) {
     return {
         id,
@@ -63,15 +72,6 @@ function criarConsulta(id, medico, paciente, data, valor) {
         valor,
         status: "agendada",
     };
-}
-function confirmarConsulta(consulta) {
-    return Object.assign(Object.assign({}, consulta), { status: "confirmada" });
-}
-function cancelarConsulta(consulta) {
-    if (consulta.status === "realizada") {
-        return null;
-    }
-    return Object.assign(Object.assign({}, consulta), { status: "cancelada" });
 }
 function exibirConsulta(consulta) {
     const valorFormatado = consulta.valor.toLocaleString("pt-BR", {
@@ -88,6 +88,7 @@ Valor: ${valorFormatado}
 Status: ${consulta.status}
 `;
 }
+// Listar consultas por status
 function listarConsultasPorStatus(consultas, status) {
     return consultas.filter((consulta) => consulta.status === status);
 }
